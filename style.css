@@ -1,0 +1,124 @@
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  background-color: #111;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  --color-s: #ff7f80;
+  --color-a: #ffc07f;
+  --color-b: #ffdf80;
+  --color-c: #fdff7f;
+  --color-d: #bfff7f;
+  --color-e: #7fff7f;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: none;
+}
+
+
+body {
+  color: #eee;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: 0 auto;
+  max-width: 760px;
+  padding-inline: 32px;
+  user-select: none;
+  /* min-height: 100vh; */
+  min-width: 320px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button {
+  background: transparent;
+  border: 0;
+  color: #eee;
+  cursor: pointer;
+}
+
+#top-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 10px;
+  margin-block: 30px;
+
+  & img {
+    max-width: 150px;
+    height: auto;
+  }
+}
+
+.tier {
+  border: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  background: #2e2e2e;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #000;
+}
+
+.label {
+  cursor: pointer;
+  background-color: var(--level, #09f);
+  color: #333;
+  font-weight: bold;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+#selector-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+
+  & button, & label {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #2e2e2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    border-radius: 100%;
+    &:hover {
+      scale: 1.1;
+      background: #444;
+    }
+  }
+}
+
+#selector-items {
+  border: 1px solid #666;
+  width: 100%;
+  height: 150px;
+  margin-bottom: 100px;
+  display: flex;
+}
