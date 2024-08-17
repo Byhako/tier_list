@@ -126,6 +126,7 @@ button {
   min-height: 150px;
   margin-bottom: 100px;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .item-image {

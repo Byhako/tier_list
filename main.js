@@ -5,6 +5,7 @@ const $$ = el => document.querySelectorAll(el)
 
 const imageInput = $('#image-input')
 const itemsSection = $('#selector-items')
+const resetButton = $('#reset-button')
 
 const createItem = (image) => {
   const imgElement = document.createElement('img')
@@ -20,17 +21,23 @@ const createItem = (image) => {
   return imgElement
 }
 
-imageInput.addEventListener('change', (event) => {
-  const [file] = event.target.files
-
-  if (file) {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-
-    reader.onload = (eventReader) => {
-      createItem(eventReader.target.result)
-    }
+const useFilesToCreateItems = (files) => {
+  if (files?.length > 0) {
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+  
+      reader.onload = (eventReader) => {
+        createItem(eventReader.target.result)
+      }
+    })
   }
+}
+
+imageInput.addEventListener('change', (event) => {
+  const { files } = event.target
+
+  useFilesToCreateItems(files)
 })
 
 let draggenElement = null
@@ -79,7 +86,7 @@ function handleDrop(event) {
 
 function handleDragOver(event) {
   event.preventDefault()
-  const { currentTarget, dataTransfer } = event
+  const { currentTarget } = event
 
   if (sourceContainer === currentTarget) {
     return
@@ -103,3 +110,12 @@ function handleDragLeave(event) {
   currentTarget.classList.remove('drag-over')
   currentTarget.querySelector('.drag-preview')?.remove()
 }
+
+resetButton.addEventListener('click', () => {
+  const items = $$('.tier .item-image')
+
+  items.forEach((item) => {
+    item.remove()
+    itemsSection.appendChild(item)
+  })
+})
