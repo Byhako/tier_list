@@ -127,6 +127,11 @@ button {
   margin-bottom: 100px;
   display: flex;
   flex-wrap: wrap;
+
+  &.drag-files {
+    background-color: #555;
+    border: 1px dashed #444;
+  }
 }
 
 .item-image {

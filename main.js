@@ -7,6 +7,9 @@ const imageInput = $('#image-input')
 const itemsSection = $('#selector-items')
 const resetButton = $('#reset-button')
 
+let draggenElement = null
+let sourceContainer = null
+
 const createItem = (image) => {
   const imgElement = document.createElement('img')
   imgElement.draggable = true
@@ -40,21 +43,7 @@ imageInput.addEventListener('change', (event) => {
   useFilesToCreateItems(files)
 })
 
-let draggenElement = null
-let sourceContainer = null
-
-const rows = $$('.tier .row')
-
-rows.forEach((row) => {
-  row.addEventListener('drop', handleDrop)
-  row.addEventListener('dragover', handleDragOver)
-  row.addEventListener('dragleave', handleDragLeave)
-})
-
-itemsSection.addEventListener('drop', handleDrop)
-itemsSection.addEventListener('dragover', handleDragOver)
-itemsSection.addEventListener('dragleave', handleDragLeave)
-
+// ---------------------------------------------------
 function handleDragStart(event) {
   draggenElement = event.target
   sourceContainer = draggenElement.parentElement
@@ -66,6 +55,28 @@ function handleDragEnd() {
   sourceContainer = null
 }
 
+// ---------------------------------------------------
+const handleDropFromDesktop = (event) => {
+  event.preventDefault()
+  const { currentTarget, dataTransfer } = event
+  
+  if (dataTransfer.types.includes('Files')) {
+    const {files } = dataTransfer
+    useFilesToCreateItems(files)
+    currentTarget.classList.remove('drag-files')
+  }
+}
+
+function handleDragOverFromDesktop(event) {
+  event.preventDefault()
+  const { currentTarget, dataTransfer } = event
+
+  if (dataTransfer.types.includes('Files')) {
+    currentTarget.classList.add('drag-files')
+  }
+}
+
+// ---------------------------------------------------
 function handleDrop(event) {
   event.preventDefault()
   const { currentTarget, dataTransfer } = event
@@ -119,3 +130,21 @@ resetButton.addEventListener('click', () => {
     itemsSection.appendChild(item)
   })
 })
+
+// ---------------------------------------------------
+const rows = $$('.tier .row')
+
+rows.forEach((row) => {
+  row.addEventListener('drop', handleDrop)
+  row.addEventListener('dragover', handleDragOver)
+  row.addEventListener('dragleave', handleDragLeave)
+})
+
+// Drag and drop images to create a new item.
+itemsSection.addEventListener('drop', handleDrop)
+itemsSection.addEventListener('dragover', handleDragOver)
+itemsSection.addEventListener('dragleave', handleDragLeave)
+
+// Drag and drop images from the desktop to page
+itemsSection.addEventListener('dragover', handleDragOverFromDesktop)
+itemsSection.addEventListener('drop', handleDropFromDesktop)
