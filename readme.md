@@ -1,3 +1,3 @@
 # Tier Maker
 
-![imagen]('./image.png')
+![imagen]('image.png')
