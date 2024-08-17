@@ -31,7 +31,11 @@ const useFilesToCreateItems = (files) => {
       reader.readAsDataURL(file)
   
       reader.onload = (eventReader) => {
-        createItem(eventReader.target.result)
+        const { result } = eventReader.target
+
+        if (result.includes('data:image')) {
+          createItem(result)
+        }
       }
     })
   }
@@ -59,11 +63,15 @@ function handleDragEnd() {
 const handleDropFromDesktop = (event) => {
   event.preventDefault()
   const { currentTarget, dataTransfer } = event
+
+  if (sourceContainer && draggenElement) {
+    sourceContainer.removeChild(draggenElement)
+  }
   
   if (dataTransfer.types.includes('Files')) {
-    const {files } = dataTransfer
+    const { files } = dataTransfer
     useFilesToCreateItems(files)
-    currentTarget.classList.remove('drag-files')
+    currentTarget.classList?.remove('drag-files')
   }
 }
 
@@ -93,6 +101,8 @@ function handleDrop(event) {
 
   currentTarget.classList.remove('drag-over')
   currentTarget.querySelector('.drag-preview')?.remove()
+  itemsSection.classList?.remove('drag-files')
+
 }
 
 function handleDragOver(event) {
@@ -120,6 +130,7 @@ function handleDragLeave(event) {
 
   currentTarget.classList.remove('drag-over')
   currentTarget.querySelector('.drag-preview')?.remove()
+  currentTarget.classList?.remove('drag-files')
 }
 
 resetButton.addEventListener('click', () => {
@@ -140,11 +151,7 @@ rows.forEach((row) => {
   row.addEventListener('dragleave', handleDragLeave)
 })
 
-// Drag and drop images to create a new item.
-itemsSection.addEventListener('drop', handleDrop)
-itemsSection.addEventListener('dragover', handleDragOver)
-itemsSection.addEventListener('dragleave', handleDragLeave)
 
-// Drag and drop images from the desktop to page
+// Drag and drop images
 itemsSection.addEventListener('dragover', handleDragOverFromDesktop)
 itemsSection.addEventListener('drop', handleDropFromDesktop)
