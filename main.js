@@ -6,6 +6,7 @@ const $$ = el => document.querySelectorAll(el)
 const imageInput = $('#image-input')
 const itemsSection = $('#selector-items')
 const resetButton = $('#reset-button')
+const saveButton = $('#save')
 
 let draggenElement = null
 let sourceContainer = null
@@ -155,3 +156,23 @@ rows.forEach((row) => {
 // Drag and drop images
 itemsSection.addEventListener('dragover', handleDragOverFromDesktop)
 itemsSection.addEventListener('drop', handleDropFromDesktop)
+
+saveButton.addEventListener('click', () => {
+  const tierContainer = $('.tier')
+
+  const camvas = document.createElement('canvas')
+  const ctx = camvas.getContext('2d')
+
+  import('https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.8/+esm')
+    .then(({ default: html2canvas }) => {
+      html2canvas(tierContainer).then((canvas) => {
+        ctx.drawImage(canvas, 0, 0)
+
+        const dataURL = camvas.toDataURL('image/png')
+        const link = document.createElement('a')
+        link.download = 'tier.png'
+        link.href = dataURL
+        link.click()
+      })
+    })
+})
